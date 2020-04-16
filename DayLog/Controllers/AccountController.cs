@@ -32,7 +32,7 @@ namespace DayLog.Controllers
                 cookie.Value = authId;
                 Response.Cookies.Add(cookie);
 
-                return RedirectToAction("Private", );
+                return RedirectToAction("Private");
             }
         }
     }
