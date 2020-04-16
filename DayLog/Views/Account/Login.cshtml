@@ -8,7 +8,7 @@
 {
     <fieldset>
         <legend>DayLog Keep track of your daily activities!</legend>
-
+        
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
         @if (@ViewBag.Message != null)
@@ -33,6 +33,10 @@
                 <td>
                     @Html.ValidationMessageFor(a => a.Password)
                 </td>
+                <td>
+                    <p>Invalid Password!</p>
+                </td>
+
             </tr>
             <tr>
                 <td></td>

@@ -127,7 +127,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Data\DatabaseHelper.cs" />
+    <Compile Include="Models\Data\DayCardsHelper.cs" />
     <Compile Include="Models\Data\LoginResponse.cs" />
+    <Compile Include="Models\Data\UserDetails.cs" />
+    <Compile Include="Models\HelperClasses\CustomAttributes.cs" />
     <Compile Include="Models\Interfaces\IUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

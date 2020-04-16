@@ -1,6 +1,8 @@
-﻿using System;
+﻿using DayLog.Models.HelperClasses;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -15,44 +17,36 @@ namespace DayLog.Models.Data
     public class LoginResponse
     {
         [DisplayName("Username")]
-        [RegexStringValidator(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$")]
+        [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "This username doesn't match our rules!")]
+        [Required(ErrorMessage = "Username is missing!")]
         public string LoginName { get; set; }
+
         [DisplayName("Password")]
-        [RegexStringValidator(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{4,8}$")]
+        //[RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{4,8}$", ErrorMessage = "That is definitely not a password here!")]
+        [Required(ErrorMessage = "Password is missing!")]
         public string Password { get; set; }
-        public bool Authenticated { get; set; }
 
         /// <summary>
-        /// Constructor will populate the Authenticated property automatically
+        /// Boolean indicating whether the user is successfully logged in or not, all logic handled in the db
         /// </summary>
-        /// <param name="loginName">Username</param>
-        /// <param name="password">User Password</param>
-        public LoginResponse(string loginName, string password)
+        public bool? Authenticated { get; set; }
+
+        /// <summary>
+        /// User's ID populated after a successful authentication
+        /// </summary>
+        public int UserID { get; set; }
+
+        /// <summary>
+        /// Indicator for whether the user has been found or not
+        /// </summary>
+        public bool User_Found { get; set; }
+
+        //Default Constructor
+        public LoginResponse()
         {
-            //Getting the connection string out of the web.config file
-            string _connStr = ConfigurationManager.ConnectionStrings["dayLogConn"].ConnectionString;
-
-            //Making a SQL connection to authenticate a user
-            using (SqlConnection con = new SqlConnection(_connStr))
-            {
-                using (SqlCommand cmd = new SqlCommand("usp_Login", con))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.Add("@LoginName", SqlDbType.NVarChar).Value = loginName;
-                    cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = password;
-
-                    con.Open();
-                    SqlDataReader dr = cmd.ExecuteReader();
-                    if (dr.HasRows)
-                    {
-                        while (dr.Read())
-                        {
-                            Authenticated = dr.GetBoolean(0);
-                        }
-                    }
-                }
-            }
+            LoginName = String.Empty;
+            Password = String.Empty;
         }
+
     }
 }

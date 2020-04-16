@@ -17,22 +17,33 @@ namespace DayLog.Controllers
 
         [HttpPost]
         public ActionResult Login(LoginResponse response)
-        { 
-            if(!response.Authenticated)
+        {
+            if (!ModelState.IsValid)
             {
-                return View();
+                return View(response);
             }
             else
             {
-                string authId = Guid.NewGuid().ToString();
+                DayCardsHelper helper = new DayCardsHelper();
+                LoginResponse loginResponse = helper.TryLogin(response.LoginName, response.Password);
 
-                Session["AuthID"] = authId;
+                if (loginResponse.Authenticated == false)
+                {
+                    return View(loginResponse);
+                }
+                else
+                {
+                    string authId = Guid.NewGuid().ToString();
 
-                var cookie = new HttpCookie("AuthID");
-                cookie.Value = authId;
-                Response.Cookies.Add(cookie);
+                    Session["AuthID"] = authId;
 
-                return RedirectToAction("Private", );
+                    var cookie = new HttpCookie("AuthID");
+                    cookie.Value = authId;
+                    Response.Cookies.Add(cookie);
+
+                    //Check if has been done today
+                    return RedirectToAction("NewCard", "DayCards");
+                }
             }
         }
     }
