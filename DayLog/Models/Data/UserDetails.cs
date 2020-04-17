@@ -2,25 +2,19 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
 namespace DayLog.Models.Data
 {
-    /// <summary>
-    /// Object to capture the information needed to authenticate a user
-    /// </summary>
-    public class LoginResponse 
+    public class UserDetails
     {
         /// <summary>
         /// User's email address
         /// </summary>
-        [DisplayName("Username")]
+        [DisplayName("Email Address")]
         [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$")]
-        [Required(ErrorMessage = "Please enter your email address!")]
+        [Required(ErrorMessage = "Please make sure your email address is correct!")]
         public string Username { get; set; }
 
         /// <summary>
@@ -44,14 +38,6 @@ namespace DayLog.Models.Data
         /// <summary>
         /// User's ID
         /// </summary>
-        public int UserID { get; set; } 
-
-        /// <summary>
-        /// Base Constructor
-        /// </summary>
-        public LoginResponse()
-        {
-            UserID = 0;
-        }
+        public int UserID { get; set; }
     }
 }

@@ -126,9 +126,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Data\DatabaseHelper.cs" />
+    <Compile Include="Models\Data\DBHelper.cs" />
     <Compile Include="Models\Data\LoginResponse.cs" />
-    <Compile Include="Models\Interfaces\IUser.cs" />
+    <Compile Include="Models\Data\UserDetails.cs" />
+    <Compile Include="Models\Logging\DBLogger.cs" />
+    <Compile Include="Models\Logging\EventLogger.cs" />
+    <Compile Include="Models\Logging\FileLogger.cs" />
+    <Compile Include="Models\Logging\LogBase.cs" />
+    <Compile Include="Models\Logging\LogHelper.cs" />
+    <Compile Include="Models\Logging\LogTarget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -173,9 +179,11 @@
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\DayCards\NewCard.cshtml" />
     <Content Include="Views\DayCards\ViewCards.cshtml" />
+    <Content Include="Views\Account\ErrorPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Interfaces\" />
     <Folder Include="Views\Site\" />
   </ItemGroup>
   <ItemGroup>

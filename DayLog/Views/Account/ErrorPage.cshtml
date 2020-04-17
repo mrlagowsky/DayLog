@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "ErrorPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>We're sorry, something has gone wrong on our end!</h2>
+
+<h4>What could have caused this?</h4>
+<p>Well something went wrong with our technical side of the page.</p>
+<p>We might have removed the page that you were looking for.</p>
+<p>The link you've clicked might not be working anymore.</p>
+<p>You might have accidentally typed the wrong URL in the address bar.</p>
+
+<h4>What can you do?</h4>
+
+<p>You might try to retype the URL.</p>
+<p>Or we can suggest that you come back to the @Html.ActionLink("Main Page", "NewCard", "DayCards")</p>
+<p>Or you could @Html.ActionLink("send", "SendError", "DayCards") us the information about the error that you have encountered, and we'll have a look into it!</p>

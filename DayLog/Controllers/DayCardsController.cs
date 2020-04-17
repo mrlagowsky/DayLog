@@ -15,5 +15,14 @@ namespace DayLog.Controllers
             //Check if today's card has already been filled
             return View();
         }
+
+        [HttpGet]
+        public ActionResult CardCompleted()
+        {
+            //Check if today's card has already been filled
+            return View();
+        }
+
+       
     }
 }
