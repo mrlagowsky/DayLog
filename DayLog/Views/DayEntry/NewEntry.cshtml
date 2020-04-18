@@ -1,0 +1,56 @@
+﻿@model DayLog.Models.Data.EntryDetails
+    
+@using DayLog.Models.Data;
+@{
+    ViewBag.Title = "New Entry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New Entry</h2>
+
+
+@using (Html.BeginForm("NewEntry", "Entry", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <table>
+        <tr>
+            <td>
+                @*Textbox for the content of the journal entry*@
+                @Html.LabelFor(p => p.EntryContent)
+                @Html.TextBoxFor(p => p.EntryContent);
+                @Html.ValidationMessageFor(p => p.EntryContent);
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @*Letting the user decide whether today was a good day*@
+                @Html.LabelFor(p => p.MoodID)
+                <input type="radio" value="@Convert.ToInt32(MoodEnum.Positive)" id="MoodID" name="MoodID" />Today was a good day!<br />
+                <input type="radio" value="@Convert.ToInt32(MoodEnum.Okay)" id="MoodID" name="MoodID" />It was okay<br />
+                <input type="radio" value="@Convert.ToInt32(MoodEnum.Negative)" id="MoodID" name="MoodID" />Today was not great.<br />
+                @Html.ValidationMessageFor(p => p.MoodID);
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @* Sending the Anti forgery token with the form to prevent Cross-site attacks *@
+                <input name="__RequestVerificationToken" type="hidden" value="i411mJIr0mZKrk17g4Hf-0_G6aXOJLkzzGfd5yn2mVsTqj-35j_n0YUUCzFRXoFet3BXUVpBicpL3p-AqPPA3XEXEtykt4X-_MbRIxLQH6M1" />
+                <input type="submit" value="Submit Entry for Today" />
+            </td>
+        </tr>
+    </table>
+}
+@* 1 Label "What have you been up to today?"" *@
+@* 1 Pole tekstowe spore Span 80%  *@
+
+@* Once completed *@
+
+@* Label "Was it a good day?" *@
+
+@* Switch(RadioButtonGroup) Yes/No (Yes by default) *@
+
+@*Submit button*@
+
+
+

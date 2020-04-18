@@ -158,5 +158,26 @@ namespace DayLog.Controllers
         {
             return View();
         }
+
+        /// <summary>
+        /// Controller action to confirm that an error was logged
+        /// </summary>
+        /// <param name="message">Internal exception message content</param>
+        /// <returns>A SendError view </returns>
+        [HttpPost]
+        public ActionResult SendError(string message)
+        {
+            try
+            {
+                LogHelper.Log(LogTarget.Database, message);
+            }
+            catch (Exception ex)
+            {
+                //Try to log to a file if the database is down
+                LogHelper.Log(LogTarget.File, message);
+            }
+
+            return View();
+        }
     }
 }

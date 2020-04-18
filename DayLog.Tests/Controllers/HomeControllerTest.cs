@@ -50,5 +50,6 @@ namespace DayLog.Tests.Controllers
             // Assert
             Assert.IsNotNull(result);
         }
+
     }
 }

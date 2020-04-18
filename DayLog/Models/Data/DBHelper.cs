@@ -125,5 +125,38 @@ namespace DayLog.Models.Data
 
             return _result;
         }
+
+        /// <summary>
+        /// Method for creating a new journal entry
+        /// </summary>
+        /// <param name="userID">We need the ID of the user who is making the entry</param>
+        /// <param name="entryContent">We need the content of the entry</param>
+        /// <param name="moodID">We need the mood ID for tracking</param>
+        public bool CreateJournalEntry(int userID, string entryContent, MoodEnum moodID)
+        {
+            //Local indicator for seeing the number of affected rows
+            int affected = 0;
+
+            //Making a SQL connection to create a user
+            using (SqlConnection con = new SqlConnection(CONNECTION_STRING))
+            {
+                using (SqlCommand cmd = new SqlCommand("usp_CreateEntry", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userID;
+                    cmd.Parameters.Add("@EntryContent", SqlDbType.NVarChar).Value = entryContent;
+                    cmd.Parameters.Add("@MoodID", SqlDbType.Int).Value = (int)moodID;
+                    cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = DateTime.Now;
+
+                    con.Open();
+
+                    //ExecuteNonQuery will return the number of affected rows which we expect to be 1
+                    affected = cmd.ExecuteNonQuery();
+                }
+            }
+            //If the value is 0 it means the registration wasn't successful
+            return affected == 1;
+        }
     }
 }

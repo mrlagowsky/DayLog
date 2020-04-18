@@ -38,7 +38,7 @@ namespace DayLog.Models.Data
         /// <summary>
         /// Property to indicate whether the user already exists in the database
         /// </summary>
-        []
+        [MustBeFalse(ErrorMessage = "")]
         public bool Exists { get; set; }
 
     }
