@@ -1,8 +1,48 @@
-﻿
+﻿@model DayLog.Models.Data.UserDetails
 @{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Register</h2>
+<h2>Please fill in the details below to start using out daily journal!</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <table>
+        <tr>
+            <td>
+                @*Textbox for User first name*@
+                @Html.LabelFor(p => p.FirstName)
+                @Html.TextBoxFor(p => p.FirstName);
+                @Html.ValidationMessageFor(p => p.FirstName);
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @*Textbox for User Email address*@
+                @Html.LabelFor(p => p.Username)
+                @Html.TextBoxFor(p => p.Username);
+                @Html.ValidationMessageFor(p => p.Username);
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @*Textbox for User password*@
+                @Html.LabelFor(p => p.Password)
+                @Html.TextBoxFor(p => p.Password);
+                @Html.ValidationMessageFor(p => p.Password);
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @* Sending the Anti forgery token with the form to prevent Cross-site attacks *@
+                <input name="__RequestVerificationToken" type="hidden" value="i411mJIr0mZKrk17g4Hf-0_G6aXOJLkzzGfd5yn2mVsTqj-35j_n0YUUCzFRXoFet3BXUVpBicpL3p-AqPPA3XEXEtykt4X-_MbRIxLQH6M1" />
+                <input type="submit" value="Submit" />
+            </td>
+        </tr>
+    </table>
+}
+
 

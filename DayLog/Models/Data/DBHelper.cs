@@ -49,13 +49,46 @@ namespace DayLog.Models.Data
                         while (dr.Read())
                         {
                             response.Authenticated = dr.GetBoolean(0);
-                            response.User_Found = dr.GetBoolean(1);
+                            response.UserFound = dr.GetBoolean(1);
                             response.UserID = dr.GetInt32(2);
                         }
                     }
                 }
             }
             return response;
+        }
+
+        /// <summary>
+        /// Method to try and register a new user in the system
+        /// </summary>
+        /// <param name="userEmail">User's email address</param>
+        /// <param name="userFirstName">User's first name</param>
+        /// <param name="userPassword">User's password</param>
+        /// <returns>A true value for a successful registration and false for unsuccessful</returns>
+        public bool TryRegister(string userEmail, string userFirstName, string userPassword)
+        {
+            //Local indicator for seeing the number of affected rows
+            int affected = 0;
+
+            //Making a SQL connection to create a user
+            using (SqlConnection con = new SqlConnection(CONNECTION_STRING))
+            {
+                using (SqlCommand cmd = new SqlCommand("usp_Login", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add("@LoginName", SqlDbType.NVarChar).Value = userEmail;
+                    cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = userPassword;
+                    cmd.Parameters.Add("@FirstName", SqlDbType.NVarChar).Value = userFirstName;
+
+                    con.Open();
+
+                    //ExecuteNonQuery will return the number of affected rows which we expect to be 1
+                    affected = cmd.ExecuteNonQuery();
+                }
+            }
+            //If the value is 0 it means the registration wasn't successful
+            return affected == 1;
         }
 
         /// <summary>

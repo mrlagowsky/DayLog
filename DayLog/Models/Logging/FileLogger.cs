@@ -6,7 +6,7 @@ namespace DayLog.Models.Logging
     public class FileLogger : LogBase
     {
         //Logging into the my documents folder
-        public string filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private string filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public override void Log(string message)
         {
             using (StreamWriter streamWriter = new StreamWriter(filePath))

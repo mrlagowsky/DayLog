@@ -126,6 +126,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Data\CustomAttributes.cs" />
     <Compile Include="Models\Data\DBHelper.cs" />
     <Compile Include="Models\Data\LoginResponse.cs" />
     <Compile Include="Models\Data\UserDetails.cs" />
@@ -180,6 +181,7 @@
     <Content Include="Views\DayCards\NewCard.cshtml" />
     <Content Include="Views\DayCards\ViewCards.cshtml" />
     <Content Include="Views\Account\ErrorPage.cshtml" />
+    <Content Include="Views\Account\RegisterSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

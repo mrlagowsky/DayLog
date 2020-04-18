@@ -39,7 +39,7 @@ namespace DayLog.Models.Data
         /// <summary>
         /// Property to indicate whether the user has been found in the database
         /// </summary>
-        public bool User_Found { get; set; }
+        public bool UserFound { get; set; }
 
         /// <summary>
         /// User's ID
