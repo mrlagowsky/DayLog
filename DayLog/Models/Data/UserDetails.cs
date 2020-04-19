@@ -32,7 +32,8 @@ namespace DayLog.Models.Data
         /// User's first name
         /// </summary>
         [Required(ErrorMessage = "You need to insert your name here")]
-        [RegularExpression("/^[a-z ,.'-]+$/i", ErrorMessage = "This surely isn't a correct name!")]
+        [RegularExpression("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$", ErrorMessage = "This surely isn't a correct name!")]
+        [DisplayName("Your name")]
         public string FirstName { get; set; }
 
         /// <summary>

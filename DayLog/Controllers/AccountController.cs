@@ -27,7 +27,8 @@ namespace DayLog.Controllers
         /// </summary>
         /// <param name="response">Passing in the model object with populated username and password values</param>
         /// <returns>A new LoginResponse object with information about the login attempt</returns>
-        [HttpPost, ValidateHeaderAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(LoginResponse response)
         {
             //Creating a helper object and trying to login the user
@@ -80,7 +81,7 @@ namespace DayLog.Controllers
                     }
                 }
                 catch (Exception ex)
-                {
+                { 
                     return RedirectToAction("ErrorPage", new { exceptionMessage = ex.Message });
                 }
                 
@@ -103,7 +104,8 @@ namespace DayLog.Controllers
         /// </summary>
         /// <param name="userDetails">New user's details</param>
         /// <returns>Will perform a redirect to a successful registration page if it passes the model validation</returns>
-        [HttpPost, ValidateHeaderAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Register(UserDetails userDetails)
         {
             //Check if the model validation is passed
@@ -118,7 +120,8 @@ namespace DayLog.Controllers
                         return RedirectToAction("RegisterSuccess");
                     }
                     else
-                    { 
+                    {
+                        ViewBag.ShowAlert = "Yes";
                         return View(userDetails);
                     }
                 }
@@ -164,7 +167,7 @@ namespace DayLog.Controllers
         /// </summary>
         /// <param name="message">Internal exception message content</param>
         /// <returns>A SendError view </returns>
-        [HttpPost]
+        [HttpGet]
         public ActionResult SendError(string message)
         {
             try
@@ -173,8 +176,11 @@ namespace DayLog.Controllers
             }
             catch (Exception ex)
             {
+                //Capture both errors to be sent
+                string newMessage = message + "New Exception: " + ex.Message;
+
                 //Try to log to a file if the database is down
-                LogHelper.Log(LogTarget.File, message);
+                LogHelper.Log(LogTarget.File, newMessage);
             }
 
             return View();

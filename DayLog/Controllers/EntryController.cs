@@ -67,6 +67,7 @@ namespace DayLog.Controllers
         [HttpGet]
         public ActionResult ViewEntries()
         {
+            ViewBag.Images = new string[] { "Hey", "Hey2", "Hey3" };
             return View();
         }
        

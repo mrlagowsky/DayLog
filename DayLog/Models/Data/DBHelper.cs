@@ -36,7 +36,7 @@ namespace DayLog.Models.Data
                 using (SqlCommand cmd = new SqlCommand("usp_Login", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-
+                    
                     cmd.Parameters.Add("@LoginName", SqlDbType.NVarChar).Value = username;
                     cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = password;
 
@@ -68,27 +68,33 @@ namespace DayLog.Models.Data
         public bool TryRegister(string userEmail, string userFirstName, string userPassword)
         {
             //Local indicator for seeing the number of affected rows
-            int affected = 0;
+            bool _successful = true;
 
             //Making a SQL connection to create a user
             using (SqlConnection con = new SqlConnection(CONNECTION_STRING))
             {
-                using (SqlCommand cmd = new SqlCommand("usp_Login", con))
+                using (SqlCommand cmd = new SqlCommand("usp_AddUser", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-
                     cmd.Parameters.Add("@LoginName", SqlDbType.NVarChar).Value = userEmail;
                     cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = userPassword;
                     cmd.Parameters.Add("@FirstName", SqlDbType.NVarChar).Value = userFirstName;
-
                     con.Open();
 
-                    //ExecuteNonQuery will return the number of affected rows which we expect to be 1
-                    affected = cmd.ExecuteNonQuery();
+                    SqlDataReader dr = cmd.ExecuteReader();
+
+                    //Assigning the values from the DataReader
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            _successful = dr.GetBoolean(0);
+                        }
+                    }
                 }
             }
-            //If the value is 0 it means the registration wasn't successful
-            return affected == 1;
+            //If the value is 0 it means the registration wasn't successful because the username already exists
+            return _successful;
         }
 
         /// <summary>
