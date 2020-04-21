@@ -138,7 +138,7 @@ namespace DayLog.Models.Data
         /// <param name="userID">We need the ID of the user who is making the entry</param>
         /// <param name="entryContent">We need the content of the entry</param>
         /// <param name="moodID">We need the mood ID for tracking</param>
-        public bool CreateJournalEntry(int userID, string entryContent, MoodEnum moodID)
+        public bool CreateJournalEntry(int userID, string entryContent, MoodEnum moodID, bool ignore)
         {
             //Local indicator for seeing the number of affected rows
             int affected = 0;
@@ -146,7 +146,7 @@ namespace DayLog.Models.Data
             //Making a SQL connection to create a user
             using (SqlConnection con = new SqlConnection(CONNECTION_STRING))
             {
-                using (SqlCommand cmd = new SqlCommand("usp_CreateEntry", con))
+                using (SqlCommand cmd = new SqlCommand("usp_CreateNewJournalEntry", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -154,6 +154,7 @@ namespace DayLog.Models.Data
                     cmd.Parameters.Add("@EntryContent", SqlDbType.NVarChar).Value = entryContent;
                     cmd.Parameters.Add("@MoodID", SqlDbType.Int).Value = (int)moodID;
                     cmd.Parameters.Add("@CreatedDate", SqlDbType.DateTime).Value = DateTime.Now;
+                    cmd.Parameters.Add("@Ignore", SqlDbType.Bit).Value = ignore;
 
                     con.Open();
 
@@ -163,6 +164,47 @@ namespace DayLog.Models.Data
             }
             //If the value is 0 it means the registration wasn't successful
             return affected == 1;
+        }
+
+        /// <summary>
+        /// Method for retreiving a single journal entry for a particular user
+        /// </summary>
+        /// <param name="date">The date of the entry</param>
+        /// <param name="userID">ID of the user this entry is needed for</param>
+        /// <returns></returns>
+        public EntryDetails GetSingleEntry(DateTime date, int userID)
+        {
+            //Local indicator for seeing the number of affected rows
+            EntryDetails _entry = new EntryDetails();
+
+            //Making a SQL connection to create a user
+            using (SqlConnection con = new SqlConnection(CONNECTION_STRING))
+            {
+                using (SqlCommand cmd = new SqlCommand("usp_GetSingleEntry", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@EntryDate", SqlDbType.DateTime).Value = date;
+                    cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userID;
+                    con.Open();
+
+                    SqlDataReader dr = cmd.ExecuteReader();
+
+                    //Assigning the values from the DataReader
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            _entry.EntryID = dr.GetInt32(0);
+                            _entry.EntryContent = dr.GetString(1);
+                            _entry.MoodID = (MoodEnum)dr.GetInt32(2);
+                            _entry.CreatedDate = dr.GetDateTime(3);
+                            _entry.Ignore = dr.GetBoolean(4);
+                        }
+                    }
+                }
+            }
+            //Return the entry details
+            return _entry;
         }
     }
 }

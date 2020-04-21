@@ -185,6 +185,7 @@
     <Content Include="Views\Account\RegisterSuccess.cshtml" />
     <Content Include="Views\Entry\EntrySuccess.cshtml" />
     <Content Include="Views\Account\SendError.cshtml" />
+    <Content Include="Views\Entry\ViewSingleEntry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

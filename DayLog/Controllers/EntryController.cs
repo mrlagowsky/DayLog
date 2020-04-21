@@ -37,7 +37,7 @@ namespace DayLog.Controllers
                     DBHelper helper = new DBHelper();
 
                     //Creating the entry, expecting value of true for a successful insert
-                    if (helper.CreateJournalEntry(_userID, details.EntryContent, details.MoodID))
+                    if (helper.CreateJournalEntry(_userID, details.EntryContent, details.MoodID, false))
                     {
                         return RedirectToAction("EntrySuccess");
                     }
@@ -69,6 +69,32 @@ namespace DayLog.Controllers
         {
             ViewBag.Images = new string[] { "Hey", "Hey2", "Hey3" };
             return View();
+        }
+        
+        /// <summary>
+        /// Action to see a page with details about a single entry in the journal
+        /// </summary>
+        /// <param name="entryDate">Date of the entry to find in the database</param>
+        /// <returns>The ViewSingleEntry web page filled with details</returns>
+        [HttpGet]
+        public ActionResult ViewSingleEntry(DateTime entryDate)
+        {
+            try
+            {
+                //Extract the user ID from the cookies
+                int _userID = Convert.ToInt32(Session["UserID"]);
+                DBHelper helper = new DBHelper();
+
+                //Construct the details object
+                EntryDetails details = helper.GetSingleEntry(entryDate, _userID);
+
+                //Try to get the entry
+                return View(details);
+            }
+            catch(Exception ex)
+            {
+                return RedirectToAction("ErrorPage", "Account", new { exceptionMessage = ex.Message });
+            }
         }
        
     }

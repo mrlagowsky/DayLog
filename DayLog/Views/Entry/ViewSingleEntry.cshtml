@@ -1,0 +1,11 @@
+﻿@model DayLog.Models.Data.EntryDetails
+@{
+    ViewBag.Title = "ViewSingleEntry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ViewSingleEntry</h2>
+
+@Html.ActionLink("Edit Entry", "EditSingleEntry", new { entryID = Model.EntryID })
+@Html.ActionLink("Delete Entry", "DeleteSingleEntry", new { entryID = Model.EntryID })
+

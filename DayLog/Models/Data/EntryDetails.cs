@@ -43,5 +43,10 @@ namespace DayLog.Models.Data
         /// Captures the date on which the entry was created
         /// </summary>
         public DateTime CreatedDate { get; set; }
+
+        /// <summary>
+        /// Indicator whether or not to ignore the entry for that particular day, when created in the DB default value set to false
+        /// </summary>
+        public bool Ignore { get; set; }
     }
 }
